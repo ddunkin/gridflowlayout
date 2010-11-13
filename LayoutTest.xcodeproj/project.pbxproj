@@ -26,7 +26,9 @@
 		320F2C48872C2E2C4DF86205 /* libThree20UI.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 320F2C48872C2E2C4DF86204 /* libThree20UI.a */; };
 		463010571287BACB00E41117 /* DDCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 463010561287BACB00E41117 /* DDCell.m */; };
 		46301149128A4CF400E41117 /* DDGridFlowLayout.m in Sources */ = {isa = PBXBuildFile; fileRef = 46301148128A4CF400E41117 /* DDGridFlowLayout.m */; };
-		46301252128A891700E41117 /* DDGridFlowLayoutView.m in Sources */ = {isa = PBXBuildFile; fileRef = 46301251128A891700E41117 /* DDGridFlowLayoutView.m */; };
+		46301252128A891700E41117 /* DDGridFlowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 46301251128A891700E41117 /* DDGridFlowView.m */; };
+		46301345128F2D1B00E41117 /* UILabel+VerticalAlign.m in Sources */ = {isa = PBXBuildFile; fileRef = 46301344128F2D1B00E41117 /* UILabel+VerticalAlign.m */; };
+		4630135C128F376000E41117 /* NSString+Sizing.m in Sources */ = {isa = PBXBuildFile; fileRef = 4630135B128F376000E41117 /* NSString+Sizing.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -401,8 +403,12 @@
 		463010561287BACB00E41117 /* DDCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDCell.m; sourceTree = "<group>"; };
 		46301147128A4CF400E41117 /* DDGridFlowLayout.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDGridFlowLayout.h; sourceTree = "<group>"; };
 		46301148128A4CF400E41117 /* DDGridFlowLayout.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDGridFlowLayout.m; sourceTree = "<group>"; };
-		46301250128A891700E41117 /* DDGridFlowLayoutView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDGridFlowLayoutView.h; sourceTree = "<group>"; };
-		46301251128A891700E41117 /* DDGridFlowLayoutView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDGridFlowLayoutView.m; sourceTree = "<group>"; };
+		46301250128A891700E41117 /* DDGridFlowView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DDGridFlowView.h; sourceTree = "<group>"; };
+		46301251128A891700E41117 /* DDGridFlowView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DDGridFlowView.m; sourceTree = "<group>"; };
+		46301343128F2D1B00E41117 /* UILabel+VerticalAlign.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "UILabel+VerticalAlign.h"; sourceTree = "<group>"; };
+		46301344128F2D1B00E41117 /* UILabel+VerticalAlign.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+VerticalAlign.m"; sourceTree = "<group>"; };
+		4630135A128F376000E41117 /* NSString+Sizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Sizing.h"; sourceTree = "<group>"; };
+		4630135B128F376000E41117 /* NSString+Sizing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Sizing.m"; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* LayoutTest-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LayoutTest-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -439,8 +445,12 @@
 				463010561287BACB00E41117 /* DDCell.m */,
 				46301147128A4CF400E41117 /* DDGridFlowLayout.h */,
 				46301148128A4CF400E41117 /* DDGridFlowLayout.m */,
-				46301250128A891700E41117 /* DDGridFlowLayoutView.h */,
-				46301251128A891700E41117 /* DDGridFlowLayoutView.m */,
+				46301250128A891700E41117 /* DDGridFlowView.h */,
+				46301251128A891700E41117 /* DDGridFlowView.m */,
+				46301343128F2D1B00E41117 /* UILabel+VerticalAlign.h */,
+				46301344128F2D1B00E41117 /* UILabel+VerticalAlign.m */,
+				4630135A128F376000E41117 /* NSString+Sizing.h */,
+				4630135B128F376000E41117 /* NSString+Sizing.m */,
 			);
 			path = Classes;
 			sourceTree = "<group>";
@@ -995,7 +1005,9 @@
 				28D7ACF80DDB3853001CB0EB /* LayoutTestViewController.m in Sources */,
 				463010571287BACB00E41117 /* DDCell.m in Sources */,
 				46301149128A4CF400E41117 /* DDGridFlowLayout.m in Sources */,
-				46301252128A891700E41117 /* DDGridFlowLayoutView.m in Sources */,
+				46301252128A891700E41117 /* DDGridFlowView.m in Sources */,
+				46301345128F2D1B00E41117 /* UILabel+VerticalAlign.m in Sources */,
+				4630135C128F376000E41117 /* NSString+Sizing.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

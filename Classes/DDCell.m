@@ -1,4 +1,6 @@
 #import "DDCell.h"
+#import "NSString+Sizing.h"
+#import "UILabel+VerticalAlign.h"
 
 
 @implementation DDCell
@@ -34,50 +36,54 @@
 	
 	if (m_backgroundColor)
 		cellView.backgroundColor = m_backgroundColor;
-	
-	UILabel *headingView = [[[UILabel alloc] initWithFrame:CGRectMake(m_padding, m_padding, frame.size.width, 26)] autorelease];
+
+	UIFont *headingFont = [UIFont boldSystemFontOfSize:24];
+	UIFont *bodyFont = [UIFont systemFontOfSize:12];
+
+	CGFloat headingHeight = headingFont.lineHeight;
+	CGFloat headingPadding = 2;
+
+	UILabel *headingView = [[[UILabel alloc] initWithFrame:CGRectMake(m_padding, m_padding, frame.size.width, headingHeight)] autorelease];
 	headingView.backgroundColor = [UIColor clearColor];
-	headingView.font = [UIFont boldSystemFontOfSize:24];
+	headingView.font = headingFont;
 	headingView.text = m_headingText;
 	[cellView addSubview:headingView];
-
+	
 	NSString *fullBodyText = m_bodyText;
 
 	for (NSUInteger col = 0; col < m_columnSpan; col++)
 	{
-		CGFloat blockHeight = frame.size.height - 26 - m_padding;
+		CGFloat blockHeight = frame.size.height - headingHeight - headingPadding - m_padding;
 		UILabel *body = [[[UILabel alloc] initWithFrame:CGRectMake(col * (colWidth + spacing.width) + m_padding,
-																   26 + m_padding,
+																   headingHeight - headingPadding,
 																   colWidth - (2 * m_padding),
 																   blockHeight)] autorelease];
 		body.backgroundColor = [UIColor clearColor];
-		body.font = [UIFont systemFontOfSize:12];
+		body.font = bodyFont;
 		body.text = fullBodyText;
-		body.numberOfLines = blockHeight / 12;
+		body.numberOfLines = blockHeight / body.font.lineHeight;
 		
 		// if there is more than one column, split the text at column breaks
 		if (col < m_columnSpan - 1)
 		{
 			body.lineBreakMode = UILineBreakModeWordWrap;
 			
-			NSString *blockText = fullBodyText;
-			CGSize blockLayoutSize = CGSizeMake(colWidth - (2 * m_padding), blockHeight + 15);
-			CGSize size = [blockText sizeWithFont:body.font constrainedToSize:blockLayoutSize];
-			while (size.height > blockHeight)
-			{
-				NSRange range = [blockText rangeOfCharacterFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet] options:NSBackwardsSearch];
-				if (range.location == NSNotFound)
-					break;
-				
-				blockText = [blockText substringToIndex:range.location];
-				size = [blockText sizeWithFont:body.font constrainedToSize:blockLayoutSize];
-			}
+			CGSize blockLayoutSize = CGSizeMake(colWidth - (2 * m_padding), blockHeight + bodyFont.lineHeight);
+			NSString *blockText = [fullBodyText stringThatFitsWithFont:bodyFont constrainedToSize:blockLayoutSize];
+
 			body.text = blockText;
 			fullBodyText = [fullBodyText substringFromIndex:[blockText length]];
-			NSRange range = [blockText rangeOfCharacterFromSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-			if (range.location != NSNotFound)
+			
+			// trim leading whitespace, but preserve whitespace after a newline
+			NSRange range = [fullBodyText rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]];
+			if (range.location == 0)
+				fullBodyText = [fullBodyText substringFromIndex:(range.location + range.length)];
+			range = [fullBodyText rangeOfCharacterFromSet:[NSCharacterSet newlineCharacterSet]];
+			if (range.location == 0)
 				fullBodyText = [fullBodyText substringFromIndex:(range.location + range.length)];
 		}
+		
+		[body alignTop];
 		
 		[cellView addSubview:body];
 	}

@@ -2,7 +2,7 @@
 #import <Three20/Three20.h>
 #import "DDCell.h"
 #import "DDGridFlowLayout.h"
-#import "DDGridFlowLayoutView.h"
+#import "DDGridFlowView.h"
 
 
 @interface LayoutTestViewController ()
@@ -68,7 +68,7 @@
 		[m_layout addCell:cell];
 	}
 
-	((DDGridFlowLayoutView *)self.view).layout = m_layout;
+	((DDGridFlowView *)self.view).layout = m_layout;
 }
 
 - (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
