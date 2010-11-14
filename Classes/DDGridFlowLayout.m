@@ -90,6 +90,11 @@ static DDBlank *blankInstance;
 	[m_cells removeObject:cell];
 }
 
+- (void)removeAllCells
+{
+	[m_cells removeAllObjects];
+}
+
 - (void)layoutInView:(UIView *)view
 {
 	[self reflow];
@@ -115,7 +120,7 @@ static DDBlank *blankInstance;
 										  m_margin.height + row * (rowHeight + m_spacing.height),
 										  cellWidth,
 										  cellHeight);
-				NSLog(@"Cell %d, x=%f, y=%f, w=%f, h=%f", cellNumber, frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
+				//NSLog(@"Cell %d, x=%f, y=%f, w=%f, h=%f", cellNumber, frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
 				
 				UIView *cellView = [cell viewWithFrame:frame columnWidth:colWidth spacing:m_spacing];
 				
@@ -193,7 +198,7 @@ static DDBlank *blankInstance;
 				
 				if (cellIndex == -1)
 				{
-					NSLog(@"No remaining cells fit");
+					//NSLog(@"No remaining cells fit");
 					goto done;
 				}
 				
@@ -217,7 +222,8 @@ static DDBlank *blankInstance;
 	}
 	
 done:
-	NSLog(@"flowedCells: %@", m_flowedCells);
+	;
+	//NSLog(@"flowedCells: %@", m_flowedCells);
 }
 
 @end

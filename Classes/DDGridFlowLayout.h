@@ -15,6 +15,7 @@
 - (id)initWithRows:(NSUInteger)rows columns:(NSUInteger)columns;
 - (void)addCell:(DDCell *)cellInfo;
 - (void)removeCell:(DDCell *)cellInfo;
+- (void)removeAllCells;
 - (void)layoutInView:(UIView *)view;
 
 @end

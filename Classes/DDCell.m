@@ -9,6 +9,8 @@
 	columnSpan = m_columnSpan,
 	headingText = m_headingText,
 	bodyText = m_bodyText,
+	headingFont = m_headingFont,
+	bodyFont = m_bodyFont,
 	backgroundColor = m_backgroundColor,
 	padding = m_padding;
 
@@ -18,6 +20,8 @@
 	{
 		m_rowSpan = 1;
 		m_columnSpan = 1;
+		m_headingFont = [[UIFont boldSystemFontOfSize:24] retain];
+		m_bodyFont = [[UIFont systemFontOfSize:12] retain];
 	}
 	return self;
 }
@@ -26,6 +30,8 @@
 {
 	[m_headingText release];
 	[m_bodyText release];
+	[m_headingFont release];
+	[m_bodyFont release];
 	[m_backgroundColor release];
 	[super dealloc];
 }
@@ -37,39 +43,40 @@
 	if (m_backgroundColor)
 		cellView.backgroundColor = m_backgroundColor;
 
-	UIFont *headingFont = [UIFont boldSystemFontOfSize:24];
-	UIFont *bodyFont = [UIFont systemFontOfSize:12];
+	CGFloat headingHeight = m_headingFont.lineHeight;
+	CGFloat headingWidth = frame.size.width - (2 * m_padding);
+	CGSize headingSize = [m_headingText sizeWithFont:m_headingFont constrainedToSize:CGSizeMake(headingWidth, frame.size.height)];
+	headingHeight = headingSize.height;
 
-	CGFloat headingHeight = headingFont.lineHeight;
-	CGFloat headingPadding = 2;
-
-	UILabel *headingView = [[[UILabel alloc] initWithFrame:CGRectMake(m_padding, m_padding, frame.size.width, headingHeight)] autorelease];
+	UILabel *headingView = [[[UILabel alloc] initWithFrame:CGRectMake(m_padding, m_padding, headingWidth, headingHeight)] autorelease];
 	headingView.backgroundColor = [UIColor clearColor];
-	headingView.font = headingFont;
+	headingView.font = m_headingFont;
 	headingView.text = m_headingText;
+	headingView.lineBreakMode = UILineBreakModeWordWrap;
+	headingView.numberOfLines = headingHeight / m_headingFont.lineHeight;
 	[cellView addSubview:headingView];
 	
 	NSString *fullBodyText = m_bodyText;
 
 	for (NSUInteger col = 0; col < m_columnSpan; col++)
 	{
-		CGFloat blockHeight = frame.size.height - headingHeight - headingPadding - m_padding;
+		CGFloat blockHeight = frame.size.height - headingHeight - m_padding;
 		UILabel *body = [[[UILabel alloc] initWithFrame:CGRectMake(col * (colWidth + spacing.width) + m_padding,
-																   headingHeight - headingPadding,
+																   headingHeight + m_padding,
 																   colWidth - (2 * m_padding),
 																   blockHeight)] autorelease];
 		body.backgroundColor = [UIColor clearColor];
-		body.font = bodyFont;
+		body.font = m_bodyFont;
 		body.text = fullBodyText;
-		body.numberOfLines = blockHeight / body.font.lineHeight;
+		body.numberOfLines = blockHeight / m_bodyFont.lineHeight;
 		
 		// if there is more than one column, split the text at column breaks
 		if (col < m_columnSpan - 1)
 		{
 			body.lineBreakMode = UILineBreakModeWordWrap;
 			
-			CGSize blockLayoutSize = CGSizeMake(colWidth - (2 * m_padding), blockHeight + bodyFont.lineHeight);
-			NSString *blockText = [fullBodyText stringThatFitsWithFont:bodyFont constrainedToSize:blockLayoutSize];
+			CGSize blockLayoutSize = CGSizeMake(colWidth - (2 * m_padding), blockHeight + m_bodyFont.lineHeight);
+			NSString *blockText = [fullBodyText stringThatFitsWithFont:m_bodyFont constrainedToSize:blockLayoutSize];
 
 			body.text = blockText;
 			fullBodyText = [fullBodyText substringFromIndex:[blockText length]];
@@ -78,9 +85,13 @@
 			NSRange range = [fullBodyText rangeOfCharacterFromSet:[NSCharacterSet whitespaceCharacterSet]];
 			if (range.location == 0)
 				fullBodyText = [fullBodyText substringFromIndex:(range.location + range.length)];
+
 			range = [fullBodyText rangeOfCharacterFromSet:[NSCharacterSet newlineCharacterSet]];
-			if (range.location == 0)
+			while (range.location == 0)
+			{
 				fullBodyText = [fullBodyText substringFromIndex:(range.location + range.length)];
+				range = [fullBodyText rangeOfCharacterFromSet:[NSCharacterSet newlineCharacterSet]];
+			}
 		}
 		
 		[body alignTop];

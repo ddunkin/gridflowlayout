@@ -6,6 +6,7 @@
 @interface LayoutTestViewController : UIViewController
 {
 	DDGridFlowLayout *m_layout;
+	NSMutableArray *m_feedItems;
 }
 
 @end
