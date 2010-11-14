@@ -10,7 +10,7 @@
 
 @interface LayoutTestViewController ()
 
-- (void)updateLayoutFromInterfaceOrientation;
+- (void)updateLayoutFromInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation;
 - (void)reloadItems;
 - (void)refreshLayout;
 
@@ -37,7 +37,7 @@
     [super viewDidLoad];
 	
 	m_layout = [[DDGridFlowLayout alloc] init];
-	[self updateLayoutFromInterfaceOrientation];
+	[self updateLayoutFromInterfaceOrientation:self.interfaceOrientation];
 	
 	/*
 	DDCell *cell = [self cellWithNumber:1];
@@ -92,16 +92,15 @@
     [super viewWillDisappear:animated];
 }
 
-- (void)didRotateFromInterfaceOrientation:(UIInterfaceOrientation)fromInterfaceOrientation
-{
-	[self updateLayoutFromInterfaceOrientation];
-	[self.view setNeedsLayout];
-}
-
-// Override to allow orientations other than the default portrait orientation.
 - (BOOL)shouldAutorotateToInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
     return YES;
+}
+
+- (void)willRotateToInterfaceOrientation:(UIInterfaceOrientation)toInterfaceOrientation duration:(NSTimeInterval)duration
+{
+	[self updateLayoutFromInterfaceOrientation:toInterfaceOrientation];
+	[self.view setNeedsLayout];
 }
 
 - (BOOL)canBecomeFirstResponder
@@ -122,14 +121,14 @@
     [super dealloc];
 }
 
-- (void)updateLayoutFromInterfaceOrientation
+- (void)updateLayoutFromInterfaceOrientation:(UIInterfaceOrientation)interfaceOrientation
 {
-	if (UIInterfaceOrientationIsPortrait(self.interfaceOrientation))
+	if (UIInterfaceOrientationIsPortrait(interfaceOrientation))
 	{
 		m_layout.rows = 5;
 		m_layout.columns = 4;
 	}
-	else if (UIInterfaceOrientationIsLandscape(self.interfaceOrientation))
+	else if (UIInterfaceOrientationIsLandscape(interfaceOrientation))
 	{
 		m_layout.rows = 4;
 		m_layout.columns = 5;
