@@ -77,7 +77,7 @@
 
 	((DDGridFlowView *)self.view).layout = m_layout;
 	m_feedItems = [[NSMutableArray alloc] init];
-	[self reloadItems];
+	[self performSelectorInBackground:@selector(reloadItems) withObject:nil];
 }
 
 -(void)viewDidAppear:(BOOL)animated
@@ -138,14 +138,18 @@
 
 - (void)reloadItems
 {
+	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
+	
 	[m_feedItems removeAllObjects];
 	
 	MWFeedParser *feedParser = [[MWFeedParser alloc] initWithFeedURL:@"http://blog.logos.com/atom.xml"];
 	feedParser.delegate = self;
 	feedParser.feedParseType = ParseTypeFull; // Parse feed info and all items
-	feedParser.connectionType = ConnectionTypeAsynchronously;
+	feedParser.connectionType = ConnectionTypeSynchronously;
 	[feedParser parse];
 	[feedParser release];
+	
+	[pool release];
 }
 
 - (void)refreshLayout
@@ -194,7 +198,7 @@
 - (void)feedParserDidFinish:(MWFeedParser *)parser
 {
 	NSLog(@"Finished Parsing");
-	[self refreshLayout];
+	[self performSelectorOnMainThread:@selector(refreshLayout) withObject:nil waitUntilDone:NO];
 }
 
 @end

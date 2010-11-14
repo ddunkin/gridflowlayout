@@ -29,6 +29,12 @@
 		46301252128A891700E41117 /* DDGridFlowView.m in Sources */ = {isa = PBXBuildFile; fileRef = 46301251128A891700E41117 /* DDGridFlowView.m */; };
 		46301345128F2D1B00E41117 /* UILabel+VerticalAlign.m in Sources */ = {isa = PBXBuildFile; fileRef = 46301344128F2D1B00E41117 /* UILabel+VerticalAlign.m */; };
 		4630135C128F376000E41117 /* NSString+Sizing.m in Sources */ = {isa = PBXBuildFile; fileRef = 4630135B128F376000E41117 /* NSString+Sizing.m */; };
+		46301431128F6C6E00E41117 /* MWFeedParser.m in Sources */ = {isa = PBXBuildFile; fileRef = 4630142C128F6C6E00E41117 /* MWFeedParser.m */; };
+		46301432128F6C6E00E41117 /* MWFeedInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = 4630142E128F6C6E00E41117 /* MWFeedInfo.m */; };
+		46301433128F6C6E00E41117 /* MWFeedItem.m in Sources */ = {isa = PBXBuildFile; fileRef = 46301430128F6C6E00E41117 /* MWFeedItem.m */; };
+		4630143A128F6C9600E41117 /* NSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 46301437128F6C9600E41117 /* NSString+HTML.m */; };
+		4630143B128F6C9600E41117 /* NSDate+InternetDateTime.m in Sources */ = {isa = PBXBuildFile; fileRef = 46301439128F6C9600E41117 /* NSDate+InternetDateTime.m */; };
+		46301442128F6CB500E41117 /* GTMNSString+HTML.m in Sources */ = {isa = PBXBuildFile; fileRef = 46301440128F6CB500E41117 /* GTMNSString+HTML.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -409,6 +415,20 @@
 		46301344128F2D1B00E41117 /* UILabel+VerticalAlign.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "UILabel+VerticalAlign.m"; sourceTree = "<group>"; };
 		4630135A128F376000E41117 /* NSString+Sizing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+Sizing.h"; sourceTree = "<group>"; };
 		4630135B128F376000E41117 /* NSString+Sizing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+Sizing.m"; sourceTree = "<group>"; };
+		4630142A128F6C6E00E41117 /* MWFeedParser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWFeedParser.h; sourceTree = "<group>"; };
+		4630142B128F6C6E00E41117 /* MWFeedParser_Private.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWFeedParser_Private.h; sourceTree = "<group>"; };
+		4630142C128F6C6E00E41117 /* MWFeedParser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWFeedParser.m; sourceTree = "<group>"; };
+		4630142D128F6C6E00E41117 /* MWFeedInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWFeedInfo.h; sourceTree = "<group>"; };
+		4630142E128F6C6E00E41117 /* MWFeedInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWFeedInfo.m; sourceTree = "<group>"; };
+		4630142F128F6C6E00E41117 /* MWFeedItem.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MWFeedItem.h; sourceTree = "<group>"; };
+		46301430128F6C6E00E41117 /* MWFeedItem.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MWFeedItem.m; sourceTree = "<group>"; };
+		46301436128F6C9600E41117 /* NSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSString+HTML.h"; sourceTree = "<group>"; };
+		46301437128F6C9600E41117 /* NSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSString+HTML.m"; sourceTree = "<group>"; };
+		46301438128F6C9600E41117 /* NSDate+InternetDateTime.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "NSDate+InternetDateTime.h"; sourceTree = "<group>"; };
+		46301439128F6C9600E41117 /* NSDate+InternetDateTime.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "NSDate+InternetDateTime.m"; sourceTree = "<group>"; };
+		4630143F128F6CB500E41117 /* GTMNSString+HTML.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = "GTMNSString+HTML.h"; sourceTree = "<group>"; };
+		46301440128F6CB500E41117 /* GTMNSString+HTML.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = "GTMNSString+HTML.m"; sourceTree = "<group>"; };
+		46301441128F6CB500E41117 /* GTMDefines.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GTMDefines.h; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* LayoutTest-Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "LayoutTest-Info.plist"; plistStructureDefinitionIdentifier = "com.apple.xcode.plist.structure-definition.iphone.info-plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -437,6 +457,8 @@
 		080E96DDFE201D6D7F000001 /* Classes */ = {
 			isa = PBXGroup;
 			children = (
+				4630143E128F6CB500E41117 /* Google Toolbox for Mac */,
+				46301429128F6C6E00E41117 /* MWFeedParser */,
 				1D3623240D0F684500981E51 /* LayoutTestAppDelegate.h */,
 				1D3623250D0F684500981E51 /* LayoutTestAppDelegate.m */,
 				28D7ACF60DDB3853001CB0EB /* LayoutTestViewController.h */,
@@ -602,6 +624,34 @@
 				46300F211287703F00E41117 /* UIUnitTests-Xcode3.2.2.octest */,
 			);
 			name = Products;
+			sourceTree = "<group>";
+		};
+		46301429128F6C6E00E41117 /* MWFeedParser */ = {
+			isa = PBXGroup;
+			children = (
+				4630142A128F6C6E00E41117 /* MWFeedParser.h */,
+				4630142B128F6C6E00E41117 /* MWFeedParser_Private.h */,
+				4630142C128F6C6E00E41117 /* MWFeedParser.m */,
+				4630142D128F6C6E00E41117 /* MWFeedInfo.h */,
+				4630142E128F6C6E00E41117 /* MWFeedInfo.m */,
+				4630142F128F6C6E00E41117 /* MWFeedItem.h */,
+				46301430128F6C6E00E41117 /* MWFeedItem.m */,
+				46301436128F6C9600E41117 /* NSString+HTML.h */,
+				46301437128F6C9600E41117 /* NSString+HTML.m */,
+				46301438128F6C9600E41117 /* NSDate+InternetDateTime.h */,
+				46301439128F6C9600E41117 /* NSDate+InternetDateTime.m */,
+			);
+			name = MWFeedParser;
+			sourceTree = "<group>";
+		};
+		4630143E128F6CB500E41117 /* Google Toolbox for Mac */ = {
+			isa = PBXGroup;
+			children = (
+				4630143F128F6CB500E41117 /* GTMNSString+HTML.h */,
+				46301440128F6CB500E41117 /* GTMNSString+HTML.m */,
+				46301441128F6CB500E41117 /* GTMDefines.h */,
+			);
+			name = "Google Toolbox for Mac";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -1008,6 +1058,12 @@
 				46301252128A891700E41117 /* DDGridFlowView.m in Sources */,
 				46301345128F2D1B00E41117 /* UILabel+VerticalAlign.m in Sources */,
 				4630135C128F376000E41117 /* NSString+Sizing.m in Sources */,
+				46301431128F6C6E00E41117 /* MWFeedParser.m in Sources */,
+				46301432128F6C6E00E41117 /* MWFeedInfo.m in Sources */,
+				46301433128F6C6E00E41117 /* MWFeedItem.m in Sources */,
+				4630143A128F6C9600E41117 /* NSString+HTML.m in Sources */,
+				4630143B128F6C9600E41117 /* NSDate+InternetDateTime.m in Sources */,
+				46301442128F6CB500E41117 /* GTMNSString+HTML.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
