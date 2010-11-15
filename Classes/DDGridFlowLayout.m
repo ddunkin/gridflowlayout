@@ -207,25 +207,28 @@ static DDBlank *blankInstance;
 					
 					if (cellIndex == -1)
 					{
-						//NSLog(@"No remaining cells fit");
-						goto done;
+						// none of the remaining cells fit in this row
+						// skip to the next
+						col = m_columns;
 					}
-					
-					DDCell *cell = [cellsToFlow objectAtIndex:cellIndex];
-					[cellsToFlow removeObjectAtIndex:cellIndex];
-					
-					for (NSUInteger blankRow = row; blankRow < row + cell.rowSpan; blankRow++)
+					else
 					{
-						for (NSUInteger blankCol = col; blankCol < col + cell.columnSpan; blankCol++)
+						DDCell *cell = [cellsToFlow objectAtIndex:cellIndex];
+						[cellsToFlow removeObjectAtIndex:cellIndex];
+						
+						for (NSUInteger blankRow = row; blankRow < row + cell.rowSpan; blankRow++)
 						{
-							NSUInteger blankCellNumber = (page * pageCellCount) + (blankRow * m_columns) + blankCol;
-							[m_flowedCells replaceObjectAtIndex:blankCellNumber withObject:[DDBlank blank]];
+							for (NSUInteger blankCol = col; blankCol < col + cell.columnSpan; blankCol++)
+							{
+								NSUInteger blankCellNumber = (page * pageCellCount) + (blankRow * m_columns) + blankCol;
+								[m_flowedCells replaceObjectAtIndex:blankCellNumber withObject:[DDBlank blank]];
+							}
 						}
+						
+						[m_flowedCells replaceObjectAtIndex:cellNumber withObject:cell];
+						
+						col += cell.columnSpan;
 					}
-
-					[m_flowedCells replaceObjectAtIndex:cellNumber withObject:cell];
-
-					col += cell.columnSpan;
 				}
 			}
 		}
