@@ -133,6 +133,7 @@
 		m_layout.rows = 4;
 		m_layout.columns = 5;
 	}
+	[m_layout reflow];
 }
 
 - (void)reloadItems
@@ -181,6 +182,7 @@
 		}
 		[m_layout addCell:cell];
 	}
+	[m_layout reflow];
 	[self.view setNeedsLayout];
 }
 

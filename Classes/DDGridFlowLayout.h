@@ -9,6 +9,7 @@
 
 @property (nonatomic, assign) NSUInteger rows;
 @property (nonatomic, assign) NSUInteger columns;
+@property (nonatomic, readonly) NSUInteger pages;
 @property (nonatomic, assign) CGSize margin;
 @property (nonatomic, assign) CGSize spacing;
 
@@ -16,6 +17,7 @@
 - (void)addCell:(DDCell *)cellInfo;
 - (void)removeCell:(DDCell *)cellInfo;
 - (void)removeAllCells;
-- (void)layoutInView:(UIView *)view;
+- (void)reflow;
+- (void)layoutPage:(NSUInteger)pageIndex inView:(UIView *)view;
 
 @end

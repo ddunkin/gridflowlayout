@@ -12,10 +12,9 @@
 
 @interface DDGridFlowLayout ()
 	
+@property (nonatomic, readwrite, assign) NSUInteger pages;
 @property (nonatomic, retain) NSMutableArray *cells;
 @property (nonatomic, retain) NSMutableArray *flowedCells;
-
-- (void)reflow;
 
 @end
 
@@ -50,6 +49,7 @@ static DDBlank *blankInstance;
 
 @synthesize rows = m_rows,
 	columns = m_columns,
+	pages = m_pages,
 	margin = m_margin,
 	spacing = m_spacing,
 	cells = m_cells,
@@ -95,24 +95,25 @@ static DDBlank *blankInstance;
 	[m_cells removeAllObjects];
 }
 
-- (void)layoutInView:(UIView *)view
+- (void)layoutPage:(NSUInteger)page inView:(UIView *)view
 {
-	[self reflow];
-
 	CGSize viewSize = view.bounds.size;
 	CGFloat colWidth = floorf((viewSize.width - (2 * m_margin.width) - ((m_columns - 1) * m_spacing.width)) / m_columns);
 	CGFloat rowHeight = floorf((viewSize.height - (2 * m_margin.height) - ((m_rows - 1) * m_spacing.height)) / m_rows);
+	
+	NSUInteger pageCellCount = m_rows * m_columns;
 	
 	for (NSUInteger row = 0; row < m_rows; row++)
 	{
 		for (NSUInteger col = 0; col < m_columns;)
 		{
-			NSUInteger cellNumber = row * m_columns + col;
+			NSUInteger cellNumber = (page * pageCellCount) + (row * m_columns) + col;
 			
 			id obj = [m_flowedCells objectAtIndex:cellNumber];
 			if ([obj isKindOfClass:[DDCell class]])
 			{
 				DDCell *cell = obj;
+				
 				CGFloat cellWidth = cell.columnSpan * colWidth + ((cell.columnSpan - 1) * m_spacing.width);
 				CGFloat cellHeight = cell.rowSpan * rowHeight + ((cell.rowSpan - 1) * m_spacing.height);
 				
@@ -123,7 +124,6 @@ static DDBlank *blankInstance;
 				//NSLog(@"Cell %d, x=%f, y=%f, w=%f, h=%f", cellNumber, frame.origin.x, frame.origin.y, frame.size.width, frame.size.height);
 				
 				UIView *cellView = [cell viewWithFrame:frame columnWidth:colWidth spacing:m_spacing];
-				
 				[view addSubview:cellView];
 				
 				col += cell.columnSpan;
@@ -136,94 +136,105 @@ static DDBlank *blankInstance;
 	}
 }
 
-#pragma mark private
-
 - (void)reflow
 {
-	self.flowedCells = [NSMutableArray arrayWithCapacity:(m_rows * m_columns)];
-
-	for (NSUInteger i = 0; i < m_rows * m_columns; i++)
+	if ([m_cells count] == 0)
 	{
-		[m_flowedCells addObject:[NSNull null]];
+		m_pages = 0;
+		return;
 	}
 	
+	NSUInteger pageCellCount = m_rows * m_columns;
 	NSMutableArray *cellsToFlow = [NSMutableArray arrayWithArray:m_cells];
+	self.flowedCells = [NSMutableArray array];
 	
-	for (NSUInteger row = 0; row < m_rows; row++)
+	NSUInteger page = 0;
+	while ([cellsToFlow count] != 0)
 	{
-		for (NSUInteger col = 0; col < m_columns;)
+		NSMutableArray *pageFlowedCells = [NSMutableArray arrayWithCapacity:pageCellCount];
+		for (NSUInteger i = 0; i < pageCellCount; i++)
 		{
-			NSUInteger cellNumber = row * m_columns + col;
-			
-			id obj = [m_flowedCells objectAtIndex:cellNumber];
-			if ([obj isKindOfClass:[DDCell class]])
+			[pageFlowedCells addObject:[NSNull null]];
+		}
+		[m_flowedCells addObjectsFromArray:pageFlowedCells];
+		
+		for (NSUInteger row = 0; row < m_rows; row++)
+		{
+			for (NSUInteger col = 0; col < m_columns;)
 			{
-				DDCell *cell = obj;
-				col += cell.columnSpan;
-			}
-			else if ([obj isKindOfClass:[DDBlank class]])
-			{
-				col++;
-			}
-			else
-			{
-				if ([cellsToFlow count] == 0)
-					goto done;
+				NSUInteger cellNumber = (page * pageCellCount) + (row * m_columns) + col;
+				
+				id obj = [m_flowedCells objectAtIndex:cellNumber];
+				if ([obj isKindOfClass:[DDCell class]])
+				{
+					DDCell *cell = obj;
+					col += cell.columnSpan;
+				}
+				else if ([obj isKindOfClass:[DDBlank class]])
+				{
+					col++;
+				}
+				else
+				{
+					if ([cellsToFlow count] == 0)
+						goto done;
 
-				// get the next cell that will fit
-				NSUInteger rowsAvailable = m_rows - row;
-				NSUInteger columnsAvailable = m_columns - col;
-				
-				for (int i = 1; i < columnsAvailable; i++)
-				{
-					NSUInteger j = row * m_columns + col + i;
-					id obj = [m_flowedCells objectAtIndex:j];
-					if (![obj isKindOfClass:[NSNull class]])
+					// get the next cell that will fit
+					NSUInteger rowsAvailable = m_rows - row;
+					NSUInteger columnsAvailable = m_columns - col;
+					
+					for (int i = 1; i < columnsAvailable; i++)
 					{
-						columnsAvailable = i;
-						break;
+						NSUInteger j = (page * pageCellCount) + (row * m_columns) + col + i;
+						id obj = [m_flowedCells objectAtIndex:j];
+						if (![obj isKindOfClass:[NSNull class]])
+						{
+							columnsAvailable = i;
+							break;
+						}
 					}
-				}
-				
-				NSUInteger cellIndex = -1;
-				for (NSUInteger i = 0; i < [cellsToFlow count]; i++)
-				{
-					DDCell *cell = [cellsToFlow objectAtIndex:i];
-					if (cell.rowSpan <= rowsAvailable && cell.columnSpan <= columnsAvailable)
+					
+					NSUInteger cellIndex = -1;
+					for (NSUInteger i = 0; i < [cellsToFlow count]; i++)
 					{
-						cellIndex = i;
-						break;
+						DDCell *cell = [cellsToFlow objectAtIndex:i];
+						if (cell.rowSpan <= rowsAvailable && cell.columnSpan <= columnsAvailable)
+						{
+							cellIndex = i;
+							break;
+						}
 					}
-				}
-				
-				if (cellIndex == -1)
-				{
-					//NSLog(@"No remaining cells fit");
-					goto done;
-				}
-				
-				DDCell *cell = [cellsToFlow objectAtIndex:cellIndex];
-				[cellsToFlow removeObjectAtIndex:cellIndex];
-				
-				for (NSUInteger blankRow = row; blankRow < row + cell.rowSpan; blankRow++)
-				{
-					for (NSUInteger blankCol = col; blankCol < col + cell.columnSpan; blankCol++)
+					
+					if (cellIndex == -1)
 					{
-						NSUInteger blankCellNumber = blankRow * m_columns + blankCol;
-						[m_flowedCells replaceObjectAtIndex:blankCellNumber withObject:[DDBlank blank]];
+						//NSLog(@"No remaining cells fit");
+						goto done;
 					}
-				}
+					
+					DDCell *cell = [cellsToFlow objectAtIndex:cellIndex];
+					[cellsToFlow removeObjectAtIndex:cellIndex];
+					
+					for (NSUInteger blankRow = row; blankRow < row + cell.rowSpan; blankRow++)
+					{
+						for (NSUInteger blankCol = col; blankCol < col + cell.columnSpan; blankCol++)
+						{
+							NSUInteger blankCellNumber = (page * pageCellCount) + (blankRow * m_columns) + blankCol;
+							[m_flowedCells replaceObjectAtIndex:blankCellNumber withObject:[DDBlank blank]];
+						}
+					}
 
-				[m_flowedCells replaceObjectAtIndex:cellNumber withObject:cell];
+					[m_flowedCells replaceObjectAtIndex:cellNumber withObject:cell];
 
-				col += cell.columnSpan;
+					col += cell.columnSpan;
+				}
 			}
 		}
+		
+done:
+		page++;
 	}
 	
-done:
-	;
-	//NSLog(@"flowedCells: %@", m_flowedCells);
+	m_pages = page;
 }
 
 @end
