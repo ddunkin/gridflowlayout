@@ -257,7 +257,29 @@ done:
 						}
 					}
 					
-					if (cellIndex == -1)
+					if (cellIndex != -1)
+					{
+						NSLog(@"Reshaping cell");
+						
+						DDCell *cell = [cellsToFlow objectAtIndex:cellIndex];
+						[cellsToFlow removeObjectAtIndex:cellIndex];
+						
+						if (cell.area == rowsAvailable)
+						{
+							cell.effectiveRowSpan = rowsAvailable;
+							cell.effectiveColumnSpan = 1;
+						}
+						else if (cell.area == columnsAvailable)
+						{
+							cell.effectiveColumnSpan = columnsAvailable;
+							cell.effectiveRowSpan = 1;
+						}
+						
+						[self placeCell:cell page:page row:row column:col];
+						
+						col += cell.effectiveColumnSpan;
+					}
+					else
 					{
 						// none of the remaining cells can be reshaped to fit this hole
 						// try to extend a neighboring cell
@@ -275,6 +297,7 @@ done:
 								DDCell *neighborCell = (DDCell *)neighbor;
 								if (neighborCell.flexibleLayout && neighborCell.effectiveColumnSpan == 1)
 								{
+									// TODO: ensure all the blanks between here and the neighbor are for the neighbor
 									NSLog(@"Extending effectiveRowSpan of cell at %d", neighborCellNumber);
 									neighborCell.effectiveRowSpan += 1;
 									[m_flowedCells replaceObjectAtIndex:cellNumber withObject:[DDBlank blank]];
@@ -297,6 +320,7 @@ done:
 									DDCell *neighborCell = (DDCell *)neighbor;
 									if (neighborCell.flexibleLayout && neighborCell.effectiveRowSpan == 1)
 									{
+										// TODO: ensure all the blanks between here and the neighbor are for the neighbor
 										NSLog(@"Extending effectiveColumnSpan of cell at %d", neighborCellNumber);
 										neighborCell.effectiveColumnSpan += 1;
 										[m_flowedCells replaceObjectAtIndex:cellNumber withObject:[DDBlank blank]];
@@ -308,22 +332,6 @@ done:
 						}
 						
 						col++;
-					}
-					else
-					{
-						NSLog(@"Reshaping cell at %d", cellIndex);
-
-						DDCell *cell = [cellsToFlow objectAtIndex:cellIndex];
-						[cellsToFlow removeObjectAtIndex:cellIndex];
-						
-						if (cell.area == rowsAvailable)
-							cell.effectiveRowSpan = rowsAvailable;
-						else if (cell.area == columnsAvailable)
-							cell.effectiveColumnSpan = columnsAvailable;
-
-						[self placeCell:cell page:page row:row column:col];
-						
-						col += cell.effectiveColumnSpan;
 					}
 				}
 			}
