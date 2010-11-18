@@ -295,9 +295,9 @@ done:
 							if ([neighbor isKindOfClass:[DDCell class]])
 							{
 								DDCell *neighborCell = (DDCell *)neighbor;
-								if (neighborCell.flexibleLayout && neighborCell.effectiveColumnSpan == 1)
+								// ensure all the blanks between here and the neighbor are for the neighbor
+								if (neighborCell.flexibleLayout && neighborCell.effectiveColumnSpan == 1 && neighborCell.effectiveRowSpan == row - searchRow)
 								{
-									// TODO: ensure all the blanks between here and the neighbor are for the neighbor
 									NSLog(@"Extending effectiveRowSpan of cell at %d", neighborCellNumber);
 									neighborCell.effectiveRowSpan += 1;
 									[m_flowedCells replaceObjectAtIndex:cellNumber withObject:[DDBlank blank]];
@@ -318,9 +318,9 @@ done:
 								if ([neighbor isKindOfClass:[DDCell class]])
 								{
 									DDCell *neighborCell = (DDCell *)neighbor;
-									if (neighborCell.flexibleLayout && neighborCell.effectiveRowSpan == 1)
+									// ensure all the blanks between here and the neighbor are for the neighbor
+									if (neighborCell.flexibleLayout && neighborCell.effectiveRowSpan == 1 && neighborCell.effectiveColumnSpan == col - searchCol)
 									{
-										// TODO: ensure all the blanks between here and the neighbor are for the neighbor
 										NSLog(@"Extending effectiveColumnSpan of cell at %d", neighborCellNumber);
 										neighborCell.effectiveColumnSpan += 1;
 										[m_flowedCells replaceObjectAtIndex:cellNumber withObject:[DDBlank blank]];
