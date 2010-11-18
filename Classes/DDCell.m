@@ -7,6 +7,9 @@
 
 @synthesize rowSpan = m_rowSpan,
 	columnSpan = m_columnSpan,
+	flexibleLayout = m_flexibleLayout,
+	effectiveRowSpan = m_effectiveRowSpan,
+	effectiveColumnSpan = m_effectiveColumnSpan,
 	headingText = m_headingText,
 	bodyText = m_bodyText,
 	headingFont = m_headingFont,
@@ -36,6 +39,16 @@
 	[super dealloc];
 }
 
+- (NSUInteger)area
+{
+	return m_rowSpan * m_columnSpan;
+}
+
+- (NSUInteger)effectiveArea
+{
+	return m_effectiveRowSpan * m_effectiveColumnSpan;
+}
+
 - (UIView *)viewWithFrame:(CGRect)frame columnWidth:(CGFloat)colWidth spacing:(CGSize)spacing
 {
 	UIView *cellView = [[[UIView alloc] initWithFrame:frame] autorelease];
@@ -58,7 +71,7 @@
 	
 	NSString *fullBodyText = m_bodyText;
 
-	for (NSUInteger col = 0; col < m_columnSpan; col++)
+	for (NSUInteger col = 0; col < m_effectiveColumnSpan; col++)
 	{
 		CGFloat blockHeight = frame.size.height - headingHeight - m_padding;
 		UILabel *body = [[[UILabel alloc] initWithFrame:CGRectMake(col * (colWidth + spacing.width) + m_padding,
@@ -71,7 +84,7 @@
 		body.numberOfLines = blockHeight / m_bodyFont.lineHeight;
 		
 		// if there is more than one column, split the text at column breaks
-		if (col < m_columnSpan - 1)
+		if (col < m_effectiveColumnSpan - 1)
 		{
 			body.lineBreakMode = UILineBreakModeWordWrap;
 			

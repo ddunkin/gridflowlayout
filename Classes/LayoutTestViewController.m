@@ -169,6 +169,7 @@
 		DDCell *cell = [[[DDCell alloc] init] autorelease];
 		cell.rowSpan = rowSpan;
 		cell.columnSpan = columnSpan;
+		cell.flexibleLayout = YES;
 		cell.headingText = item.title ? [item.title stringByConvertingHTMLToPlainText] : @"[No Title]";
 		cell.bodyText = item.summary ? [item.summary stringByConvertingHTMLToPlainText] : @"[No Summary]";
 		cell.headingFont = [UIFont boldSystemFontOfSize:18];

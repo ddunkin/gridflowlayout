@@ -7,6 +7,11 @@
 
 @property (nonatomic, assign) NSUInteger columnSpan;
 @property (nonatomic, assign) NSUInteger rowSpan;
+@property (nonatomic, readonly) NSUInteger area;
+@property (nonatomic, assign) BOOL flexibleLayout;
+@property (nonatomic, assign) NSUInteger effectiveColumnSpan;
+@property (nonatomic, assign) NSUInteger effectiveRowSpan;
+@property (nonatomic, readonly) NSUInteger effectiveArea;
 @property (nonatomic, copy) NSString *headingText;
 @property (nonatomic, copy) NSString *bodyText;
 @property (nonatomic, retain) UIFont *headingFont;
